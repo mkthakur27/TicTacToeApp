@@ -1,6 +1,7 @@
 import { StatusBar } from 'expo-status-bar';
 import React, { useState } from 'react';
-import { StyleSheet, Text, View, TouchableOpacity } from 'react-native';
+import { StyleSheet, Text, View, TouchableOpacity, LinearGradient } from 'react-native';
+import { LinearGradient as ExpoLinearGradient } from 'expo-linear-gradient';
 
 export default function App() {
   const [board, setBoard] = useState(Array(9).fill(null));
@@ -53,80 +54,123 @@ export default function App() {
   }
 
   return (
-    <View style={styles.container}>
-      <Text style={styles.title}>Tic Tac Toe</Text>
-      <Text style={styles.status}>{status}</Text>
-      
-      <View style={styles.board}>
-        {board.map((value, index) => (
-          <TouchableOpacity
-            key={index}
-            style={styles.square}
-            onPress={() => handlePress(index)}
-          >
-            <Text style={styles.squareText}>{value}</Text>
-          </TouchableOpacity>
-        ))}
+    <ExpoLinearGradient colors={['#667eea', '#764ba2', '#f093fb']} start={{ x: 0, y: 0 }} end={{ x: 1, y: 1 }} style={styles.container}>
+      <View style={styles.content}>
+        <Text style={styles.title}>Tic Tac Toe</Text>
+        <Text style={styles.status}>{status}</Text>
+        
+        <View style={styles.board}>
+          {board.map((value, index) => (
+            <TouchableOpacity
+              key={index}
+              style={[styles.square, value === 'X' ? styles.squareX : value === 'O' ? styles.squareO : styles.squareEmpty]}
+              onPress={() => handlePress(index)}
+            >
+              <Text style={[styles.squareText, value && styles.squareTextFilled]}>{value}</Text>
+            </TouchableOpacity>
+          ))}
+        </View>
+
+        <TouchableOpacity style={styles.button} onPress={resetGame}>
+          <ExpoLinearGradient colors={['#ff6b6b', '#ff8787']} style={styles.buttonGradient}>
+            <Text style={styles.buttonText}>New Game</Text>
+          </ExpoLinearGradient>
+        </TouchableOpacity>
+
+        <StatusBar style="light" />
       </View>
-
-      <TouchableOpacity style={styles.button} onPress={resetGame}>
-        <Text style={styles.buttonText}>New Game</Text>
-      </TouchableOpacity>
-
-      <StatusBar style="auto" />
-    </View>
+    </ExpoLinearGradient>
   );
 }
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: '#fff',
-    alignItems: 'center',
+alignItems: 'center',
     justifyContent: 'center',
     padding: 20,
   },
+  content: {
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
   title: {
-    fontSize: 32,
+    fontSize: 40,
     fontWeight: 'bold',
     marginBottom: 20,
-    color: '#333',
+    color: '#fff',
+    textShadowColor: 'rgba(0, 0, 0, 0.3)',
+    textShadowOffset: { width: 2, height: 2 },
+    textShadowRadius: 3,
   },
   status: {
     fontSize: 18,
     marginBottom: 20,
-    color: '#666',
+    color: '#fff',
     fontWeight: '600',
+    textShadowColor: 'rgba(0, 0, 0, 0.2)',
+    textShadowOffset: { width: 1, height: 1 },
+    textShadowRadius: 2,
   },
   board: {
     width: 300,
     height: 300,
     flexDirection: 'row',
     flexWrap: 'wrap',
-    borderWidth: 2,
-    borderColor: '#333',
+    borderWidth: 3,
+    borderColor: '#fff',
     marginBottom: 30,
+    borderRadius: 10,
+    backgroundColor: 'rgba(255, 255, 255, 0.1)',
+    shadowColor: '#000',
+    shadowOffset: { width: 0, height: 10 },
+    shadowOpacity: 0.3,
+    shadowRadius: 20,
+    elevation: 10,
   },
   square: {
     width: '33.33%',
     height: '33.33%',
     borderWidth: 1,
-    borderColor: '#333',
+    borderColor: 'rgba(255, 255, 255, 0.4)',
     justifyContent: 'center',
     alignItems: 'center',
-    backgroundColor: '#f9f9f9',
+  },
+  squareEmpty: {
+    backgroundColor: 'rgba(255, 255, 255, 0.05)',
+  },
+  squareX: {
+    backgroundColor: 'rgba(255, 107, 107, 0.2)',
+  },
+  squareO: {
+    backgroundColor: 'rgba(100, 200, 255, 0.2)',
   },
   squareText: {
     fontSize: 40,
     fontWeight: 'bold',
-    color: '#333',
+    color: '#fff',
+  },
+  squareTextFilled: {
+    textShadowColor: 'rgba(0, 0, 0, 0.3)',
+    textShadowOffset: { width: 1, height: 1 },
+    textShadowRadius: 2,
   },
   button: {
-    backgroundColor: '#007AFF',
-    paddingVertical: 12,
-    paddingHorizontal: 30,
-    borderRadius: 8,
+    borderRadius: 12,
+    overflow: 'hidden',
+    shadowColor: '#000',
+    shadowOffset: { width: 0, height: 4 },
+    shadowOpacity: 0.3,
+    shadowRadius: 8,
+    elevation: 5,
   },
+  buttonGradient: {
+    paddingVertical: 14,
+    paddingHorizontal: 40,
+    justifyContent: 'center',
+    alignItems: 'center',
+    borderRadius: 12,
+  },
+  buttonText: {
+    color: '#fff',
+    fontSize: 16,
+    fontWeight: '7
   buttonText: {
     color: '#fff',
     fontSize: 16,

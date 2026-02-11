@@ -1,0 +1,26 @@
+version: '3.8'
+
+services:
+  tictactoe:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: tictactoe-app
+    ports:
+      - "19000:19000"
+      - "19001:19001"
+      - "19002:19002"
+    volumes:
+      - .:/app
+      - /app/node_modules
+    environment:
+      - EXPO_HOST=0.0.0.0
+      - NODE_ENV=production
+    stdin_open: true
+    tty: true
+    networks:
+      - tictactoe-network
+
+networks:
+  tictactoe-network:
+    driver: bridge

@@ -95,3 +95,29 @@ The main game logic is in [App.js](App.js) which includes:
 ## License
 
 MIT
+
+## Deployment (GitHub + Expo)
+
+Follow these steps to publish the project to GitHub and enable CI that can publish to Expo:
+
+- **Create a GitHub repository**: create a new empty repo on GitHub.
+- **Add remote and push from this project** (run from project root):
+
+```bash
+git init
+git add .
+git commit -m "Initial commit"
+git remote add origin <GIT_REPO_URL>
+git branch -M main
+git push -u origin main
+```
+
+- **Configure Expo token**: create an Expo access token and add it as a repository secret named `EXPO_TOKEN` (Repository Settings → Secrets → Actions). The GitHub Actions workflow will use this to run `expo-cli publish`.
+
+- **Workflow**: a GitHub Actions workflow has been added at [.github/workflows/expo.yml](.github/workflows/expo.yml). It runs on pushes to `main`/`master`, installs dependencies, runs tests, and publishes to Expo when `EXPO_TOKEN` is present.
+
+- **Trigger a deploy**: push to `main` (or `master`) to trigger the workflow.
+
+Notes:
+- You may prefer to use EAS Build for native builds; that requires configuring EAS and replacing the `publish` step with `eas build` and additional secrets.
+- Ensure the `EXPO_TOKEN` has appropriate permissions for publishing.
